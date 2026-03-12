@@ -8,6 +8,35 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - List at least two concrete bugs you noticed at the start  
   (for example: "the hints were backwards").
 
+Bug 1: The attempts left counter was wrong at the start
+
+Expected:
+When the game starts, the number of attempts left should equal the total number of attempts allowed for the selected difficulty.
+
+Actual:
+The game always shows one fewer attempt than expected when the game begins.
+
+Bug 2: Hard difficulty uses a smaller range than Normal difficulty
+
+Expected:
+Hard mode should be more difficult than Normal mode, so its number range should be equal to or larger than Normal mode.
+
+Actual:
+Normal mode uses the range 1 to 100, but Hard mode uses 1 to 50, which actually makes Hard mode easier in terms of guessing range.
+
+Bug 3: The hint messages are reversed
+
+Expected:
+If the player's guess is higher than the secret number, the game should tell them to go lower.
+If the player's guess is lower than the secret number, the game should tell them to go higher.
+
+Actual:
+The game does the opposite:
+
+when the guess is too high, it says “Go HIGHER!”
+
+when the guess is too low, it says “Go LOWER!”
+
 ---
 
 ## 2. How did you use AI as a teammate?
@@ -15,6 +44,28 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+
+Correct suggestion from AI
+
+What the AI suggested:
+Copilot pointed out that the new_game logic resets the secret number using random.randint(1, 100), which is hardcoded and does not respect the selected difficulty level.
+
+Was the suggestion correct?
+Yes, the suggestion was correct.
+
+How I verified it:
+I reviewed the code and noticed that when starting a new game, the secret number was always generated within the range 1–100, regardless of the selected difficulty. This contradicted the game design, since each difficulty level should have its own range defined by get_range_for_difficulty(). Based on this suggestion, I modified the code so that the new secret number is generated using the low and high values returned from get_range_for_difficulty(difficulty). After making this change, the game correctly resets the secret number according to the selected difficulty.
+
+Incorrect or misleading suggestion from AI
+
+What the AI suggested:
+While helping me generate tests, Copilot automatically removed the existing starter tests and replaced them with new ones.
+
+Was the suggestion correct?
+This suggestion was misleading.
+
+How I verified it:
+After reviewing the assignment instructions, I realized that the starter tests were required and should not be removed. The AI had made an assumption and modified the tests without explicitly asking. To correct this, I restored the original starter tests and ensured they remained in the project. This experience showed that AI tools can sometimes make decisions that do not align with assignment requirements, so it is important to carefully review their suggestions instead of accepting them automatically.
 
 ---
 
@@ -24,6 +75,19 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - Describe at least one test you ran (manual or using pytest)  
   and what it showed you about your code.
 - Did AI help you design or understand any tests? How?
+
+I confirmed that a bug was fixed by reviewing the code changes and running tests with pytest. I also checked the behavior manually in the game when necessary. If the code logic matched the expected behavior and the tests passed, I considered the bug fixed.
+
+For example, I fixed the hint direction bug in check_guess(). Previously, when a guess was higher than the secret number, the game incorrectly suggested going higher. After fixing the logic, I ran the test:
+
+def test_regression_high_guess_says_go_lower():
+outcome, message = check_guess(60, 50)
+assert outcome == "Too High"
+assert "LOWER" in message
+
+This confirmed that the game now correctly tells the player to go lower when the guess is too high. I also used a similar test to verify the opposite case.
+
+AI tools helped me understand how to structure some of the tests, but I verified them myself by checking the assignment requirements and running pytest to ensure the results matched the expected behavior.
 
 ---
 
