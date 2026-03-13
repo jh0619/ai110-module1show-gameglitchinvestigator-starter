@@ -95,6 +95,12 @@ AI tools helped me understand how to structure some of the tests, but I verified
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 
+Streamlit reruns the entire script every time the user interacts with the app, such as clicking a button or entering input. This means that variables defined in the script will reset unless their values are stored somewhere.
+
+To solve this problem, Streamlit provides session state, which allows the app to remember values between reruns. For example, the secret number and the number of attempts must be stored in st.session_state, otherwise they would reset every time the player submits a guess.
+
+In simple terms, reruns mean the script starts over each time, and session state is how Streamlit remembers important data so the game can continue working correctly.
+
 ---
 
 ## 5. Looking ahead: your developer habits
@@ -103,3 +109,9 @@ AI tools helped me understand how to structure some of the tests, but I verified
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+One habit I want to reuse in future labs and projects is being very specific with Copilot about which file or files it should reference. Giving it the right context makes its suggestions much more relevant and reduces confusion.
+
+One thing I would do differently next time is write more precise prompts and instructions. In this project, when I asked AI to help write tests, it removed the starter tests, which was not what the assignment required. That showed me I need to be clearer about constraints and expected boundaries.
+
+This project changed the way I think about AI-generated code because it showed me that AI code is not automatically correct or complete. It can be helpful, but I still need to carefully review every suggested change before accepting it.
